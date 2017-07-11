@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content = "height = device-height, width = 420, user-scalable = no" /> 
+	<title>Sterowanie Domem.</title>
+	<script type="text/javascript" src="/webiopi.js"></script>
+	<script type="text/javascript">
+</head>
+<body> 
+	webiopi().ready(function() {
+		var content, button;
+		content = $("#content");
+		button = webiopi().createGPIOButton(25, "Dioda Red");
+		content.append(button);
+		button = webiopi().createGPIOButton(22, "Dioda Yellow");
+		content.append(button);
+		button = webiopi().createSequenceButton("test", "Dioda mig", 25, 100, "01111001100111100110");
+		content.append(button);
+		button = webiopi().createButton("test2", "Dioda fb", interwal);
+        content.append(button);
+		button_b = webiopi().createButton("allbutton", "Wy31cz wszystko", All);
+		content.append(button_b);
+		button_b = webiopi().createButton("allbuttonon", "W31cz wszystko", All1);
+		content.append(button_b);
+		webiopi().refreshGPIO(true);
+	});
+	
+	function All() {	
+	webiopi().digitalWrite(25, 0);
+	webiopi().digitalWrite(22, 0);
+	}
+	
+	function All1() {	
+	webiopi().digitalWrite(25, 1);
+	webiopi().digitalWrite(22, 1);
+	}
+	function interwal() {
+         var sequence = "01111001100111100110"
+		 webiopi().outputSequence(25, 100, sequence, komunikat);
+		 }
+		 
+    function komunikat(gpio, data) {
+             alert("zakonczono " + gpio + " na stanie  " + data);
+		 }	 
+	function macroCallback(macro, args, data) {
+		alert(data);
+	}
+</body>
+</html>
